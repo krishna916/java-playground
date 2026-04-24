@@ -41,11 +41,26 @@ public class LoggerManager {
 
     }
 
+    public static void setFormatter(Formatter newFormatter) {
+        formatter = newFormatter;
+    }
+
+    public static Formatter getFormatter() {
+        return formatter;
+    }
+
+    public static List<Appender> getAppenders() {
+        return appenders;
+    }
+
+    public static void addAppender(Appender appender) {
+        appenders.add(appender);
+    }
+
     /**
      * ASYNC DISPATCH: This is the 'Secret Sauce' for performance.
      * The business thread is NOT blocked by writing to File/DB.
-     * 
-     * GOTCHA: If the queue fills up, logs might be dropped or rejected. 
+     * GOTCHA: If the queue fills up, logs might be dropped or rejected.
      * Mention 'RejectedExecutionHandler' as a strategy for handling overflow.
      */
     public static void dispatch(LogMessage logMessage) {
@@ -64,6 +79,4 @@ public class LoggerManager {
     public static void submitLogTask(Runnable runnable) {
         executorService.execute(runnable);
     }
-    
-    // ... rest of getters/setters
-
+}
